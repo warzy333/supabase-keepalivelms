@@ -2,14 +2,14 @@ name: Supabase Keep Alive
 
 on:
   schedule:
-    - cron: '0 */6 * * *'   # toutes les 6 heures
+    - cron: '0 */6 * * *'
   workflow_dispatch:
 
 jobs:
-  ping:
+  ping_project1:
     runs-on: ubuntu-latest
     steps:
-      - name: Call Supabase REST
+      - name: Call Supabase REST (project1)
         run: |
           curl -X POST "${SUPABASE_URL}/rest/v1/ping" \
             -H "apikey: ${SUPABASE_ANON_KEY}" \
@@ -20,3 +20,18 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+
+  ping_project2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Supabase REST (project2)
+        run: |
+          curl -X POST "${SUPABASE_URL}/rest/v1/ping" \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_SERVICE_KEY}" \
+            -H "Content-Type: application/json" \
+            -d "{\"timestamp\": \"$(date -Iseconds)\"}"
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE2_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE2_ANON_KEY }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE2_SERVICE_KEY }}
