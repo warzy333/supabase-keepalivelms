@@ -35,3 +35,17 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE2_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE2_ANON_KEY }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE2_SERVICE_KEY }}
+  ping_project3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Supabase REST (project3)
+        run: |
+          curl -X POST "${SUPABASE_URL}/rest/v1/ping" \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_SERVICE_KEY}" \
+            -H "Content-Type: application/json" \
+            -d "{\"created_at\": \"$(date -Iseconds)\"}"
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE3_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE3_ANON_KEY }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE3_SERVICE_KEY }}
